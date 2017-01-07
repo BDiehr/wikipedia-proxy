@@ -8,16 +8,9 @@ const wikiRequest = (page) => new Promise(resolve => {
   wikipedia.page.data(page, { content: true }, (response) => resolve(response));
 });
 
-router.get('/:page', function * () {
-  const ctx = this;
-  const page = ctx.params.page;
-  const response = yield wikiRequest(page);
-  this.body = JSON.stringify(response);
-});
 
-app.use(router.routes());
-app.use(router.allowedMethods());
 app.use(require('koa-cors')({
+  credentials: true,
   headers: [
     'Content-Type',
     'Authorization',
@@ -25,5 +18,13 @@ app.use(require('koa-cors')({
     'Access-Control-Allow-Credentials',
   ],
 }));
+router.get('/:page', function * () {
+  const ctx = this;
+  const page = ctx.params.page;
+  const response = yield wikiRequest(page);
+  this.body = JSON.stringify(response);
+});
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 app.listen(3000);
