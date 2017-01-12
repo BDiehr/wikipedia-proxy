@@ -1,0 +1,15 @@
+<h3>Type something to search for on Wikipedia:</h3>
+<input type="text" ng-model="$ctrl.userInput">
+<button ng-click="$ctrl.searchPage($ctrl.userInput)">Find Jesus</button>
+
+<p>Visited Pages: {{$ctrl.visited.length}}</p>
+
+<div>
+  <p ng-if="$ctrl.found">We Found Jesus in {{$ctrl.visited.length}} iterations!</p>
+  <p ng-if="!$ctrl.found">We have not yet found Jesus.</p>
+</div>
+
+<p id="wiki" ng-if="!$ctrl.visited.length">Visited: </p>
+<ul>
+  <li ng-repeat="visited in $ctrl.visited track by $index">{{visited}}</li>
+</ul>

@@ -1,6 +1,6 @@
 var koa = require('koa');
 var app = koa();
-var wikipedia = require("node-wikipedia");
+var wikipedia = require('node-wikipedia');
 var Router = require('koa-router');
 const router = new Router();
 
