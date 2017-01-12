@@ -7,7 +7,7 @@ const cssExtract = new ExtractTextPlugin('main.css');
 module.exports = {
   entry: './src/app.js',
   output: {
-    path: '../map-project-server/public',
+    path: '../server/public',
     filename: 'bundle.js'
   },
   devtool: 'source-map',
