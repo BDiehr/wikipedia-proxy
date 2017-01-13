@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --harmony ./index.js"
+    "start": "nodemon --harmony ./index.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "koa": "^1.2.4",
     "koa-cors": "0.0.16",
     "koa-router": "^5.4.0",
+    "node-fetch": "^1.6.3",
     "node-wikipedia": "0.0.2",
     "wikijs": "^1.1.1"
   }

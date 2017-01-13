@@ -2,29 +2,46 @@ var koa = require('koa');
 var app = koa();
 var wikipedia = require("node-wikipedia");
 var Router = require('koa-router');
+var fetch = require('node-fetch');
 const router = new Router();
 
+/**
+ * Request Wikipedia Article
+ * A thin wrapper around `node-wikipedia` to make it `yieldable` for use in koa.
+ *
+ * @param {String} page - Requested Wikipedia page
+ * @returns {Object}
+ */
 const wikiRequest = (page) => new Promise(resolve => {
   wikipedia.page.data(page, { content: true }, (response) => resolve(response));
 });
 
-
 app.use(require('koa-cors')({
-  credentials: true,
-  headers: [
-    'Content-Type',
-    'Authorization',
-    'Access-Control-Request-Origin',
-    'Access-Control-Allow-Credentials',
-  ],
+  headers: ['Content-Type', 'Access-Control-Request-Origin'],
 }));
-router.get('/:page', function * () {
+
+/**
+ * Get Wikipedia Page
+ */
+router.get('/page/:page', function * () {
   const ctx = this;
   const page = ctx.params.page;
   const response = yield wikiRequest(page);
-  this.body = JSON.stringify(response);
+  ctx.body = JSON.stringify(response);
 });
+
+/**
+ * Get Random Wikipedia Page
+ */
+router.get('/random', function * () {
+  const ctx = this;
+  const article = yield fetch('http://en.wikipedia.org/wiki/Special:Random').then(res => res.url);
+  ctx.body = {
+    msg: 'Successfully fetched a random Wikipedia article!',
+    url: article,
+  };
+});
+
 app.use(router.routes());
 app.use(router.allowedMethods());
-
 app.listen(3000);
