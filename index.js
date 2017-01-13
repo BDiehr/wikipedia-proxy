@@ -3,7 +3,9 @@ var app = koa();
 var wikipedia = require("node-wikipedia");
 var Router = require('koa-router');
 var fetch = require('node-fetch');
+var logger = require('koa-logger');
 const router = new Router();
+const PORT_NUM = 4141;
 
 /**
  * Request Wikipedia Article
@@ -16,6 +18,7 @@ const wikiRequest = (page) => new Promise(resolve => {
   wikipedia.page.data(page, { content: true }, (response) => resolve(response));
 });
 
+app.use(logger());
 app.use(require('koa-cors')({
   headers: ['Content-Type', 'Access-Control-Request-Origin'],
 }));
@@ -44,4 +47,5 @@ router.get('/random', function * () {
 
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.listen(3000);
+app.listen(PORT_NUM);
+console.log(`Listening to port: ${PORT_NUM}`);
